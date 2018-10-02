@@ -853,6 +853,46 @@ namespace microsoftTeams {
    * @private
    * Hide from docs.
    * ------
+   * download file.
+   * @param file The file to download.
+   */
+  export function downloadFile(
+    fileDownloadParameters: FileDownloadParameters
+  ): void {
+    ensureInitialized(frameContexts.content);
+
+    const params = [
+      fileDownloadParameters.objectUrl,
+      fileDownloadParameters.title
+    ];
+
+    sendMessageRequest(parentWindow, "downloadFile", params);
+  }
+
+  /**
+   * @private
+   * Hide from docs.
+   * ------
+   * download file.
+   * @param file The file to download.
+   */
+  export function showNotification(
+    showNotificationParameters: ShowNotificationParameters
+  ): void {
+    ensureInitialized(frameContexts.content);
+
+    const params = [
+      showNotificationParameters.message,
+      showNotificationParameters.isDownloadComplete
+    ];
+
+    sendMessageRequest(parentWindow, "showNotification", params);
+  }
+
+  /**
+   * @private
+   * Hide from docs.
+   * ------
    * Upload a custom App manifest directly to both team and personal scopes.
    * This method works just for the first party Apps.
    */
@@ -1846,6 +1886,19 @@ namespace microsoftTeams {
      * This field should be used to restore to a specific state within an entity, such as scrolling to or activating a specific piece of content.
      */
     subEntityId?: string;
+  }
+
+  export interface FileDownloadParameters {
+    /**
+     * A url to the source of the file, used to open the content in the user's default browser
+     */
+    objectUrl: string;
+    title: string;
+  }
+
+  export interface ShowNotificationParameters {
+    message: string;
+    isDownloadComplete: boolean;
   }
 
   function ensureInitialized(...expectedFrameContexts: string[]): void {
